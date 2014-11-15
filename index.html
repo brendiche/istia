@@ -14,8 +14,8 @@
 			<!-- the to-do list -->
 			<div class="column">
 				<ul id="todo-list">	
-				    <li draggable="true" ondragstart="dragStart(event)" id='test'>Tâche #1 <button class="todo-list-remove" >remove</button></li>
-				    <li draggable="true" ondragstart="dragStart(event)" id='test2'>Tâche #2 <button class="todo-list-remove">remove</button></li>
+				    <li draggable="true" ondragstart="dragStart(event)">Tâche #1 <button class="todo-list-remove" >remove</button></li>
+				    <li draggable="true" ondragstart="dragStart(event)">Tâche #2 <button class="todo-list-remove">remove</button></li>
 				</ul>
 			</div>
 
@@ -68,7 +68,6 @@
 			for (var i = 0; i < element.length; i++) {
 				localStorage.setItem(i,element[i].parentNode.innerHTML);
 			};
-			console.log(localStorage);
 		}
 
 		function showSavedTache(){
@@ -86,18 +85,28 @@
 				list.appendChild(new_li);
 			};
 		}
+		var elements = [];
 
 		function dragStart(event){
-			event.dataTransfer.effectAllowed = 'move';
-			event.dataTransfer.setData("Text", event.target.getAttribute('id'));
+			var index = elements.indexOf(event.target.parentNode);
+   
+		    if (index == -1) {
+		        // not already existing in the array, add it now
+		        elements.push(event.target);
+		        index = elements.length - 1;
+		    }
+		    console.log( elements);
+    		event.dataTransfer.setData('index', index);
 		}
 		function dragOver(event){
 			event.preventDefault();
 			return false;
 		}
 		function dragDrop(event){
-			var elt = document.getElementById(event.dataTransfer.getData('Text'));
-			elt.parentNode.removeChild(elt);
+		    var element = elements[event.dataTransfer.getData('index')];
+
+    		element.parentNode.removeChild(element);
+    		elements = [];
 			return false;
 		}
 	</script>
