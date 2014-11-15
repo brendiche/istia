@@ -1,0 +1,28 @@
+#container {
+	margin: 40px auto;
+	overflow: hidden;
+	width: 1000px;
+}
+
+.column {
+	float: left;
+	width: 350px;
+}
+#todo-form-add{
+	width: 180px;
+	height: 30px;
+
+}
+
+li button:hover:after {
+  content: ' (Mettre à la corbeille)';
+}
+
+[draggable=true] {
+	-moz-user-select: none;
+	-khtml-user-select: none;
+	-webkit-user-select: none;
+	user-select: none;
+	cursor:move;
+}
+

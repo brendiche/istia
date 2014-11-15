@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="fr">
+	<head>
+		<meta charset="utf-8" />
+		<title> Template</title>
+		<link href="style.css" rel="stylesheet" type="text/css" media="screen"/>
+	</head>
+
+	<body onload="myFunction()">	
+		<H1>Le titre de ma page</H1>
+
+
+		<div id="container">
+			<!-- the to-do list -->
+			<div class="column">
+				<ul id="todo-list">	
+				    <li draggable="true">Tâche #1 <button class="todo-list-remove" >remove</button></li>
+				    <li draggable="true">Tâche #2 <button class="todo-list-remove">remove</button></li>
+				</ul>
+			</div>
+
+			<!-- form pour ajouter une tâche à la liste -->
+			<div class="column">
+				<form id="todo-form">
+					   <label>Ajouter une tâche</label><br/>
+					   <input name="todo-form-add" id="todo-form-add" type="text" placeholder="Nouvelle tâche" >
+					   <input type='button' onclick='addTache()' value='Ajouter'/>
+					   <input type='button' onclick='saveTache()' value='Sauvegarder'/>
+					   <input type='button' onclick='showSavedTache()' value='Recharger'/>
+				</form> 
+			</div>
+
+		</div>
+	</body>
+
+	<script type="text/javascript">	
+	
+		function addTache(){
+			var new_li = document.createElement("li");
+			var name = document.querySelector("#todo-form-add").value; 
+			new_li.innerHTML = name+'<button class="todo-list-remove">remove</button>';
+			new_li.addEventListener('click',removeTache,false);
+			document.querySelector("#todo-list").appendChild(new_li);
+		}
+
+		function myFunction(){
+			var remove = document.querySelectorAll('.todo-list-remove');
+			for (var i = 0;  i <  remove.length; i++) {
+				remove[i].addEventListener('click',removeTache,false);
+			};	
+		}
+
+		function removeTache(){
+			document.querySelector("#todo-list").removeChild(event.target.parentNode);
+		}
+
+		function saveTache(){
+		//On efface les données du localStorage
+			localStorage.clear();
+
+			var element = document.querySelectorAll('.todo-list-remove');
+		//On se positionne sur le noeud todo-list
+		//A COMPLETER (il faut parcourir les fils (s'ils existent) du noeud todo-list et les sauver dans le localStorage
+			for (var i = 0; i < element.length; i++) {
+				localStorage.setItem(i,element[i].parentNode.innerHTML);
+			};
+			console.log(localStorage);
+		}
+
+		function showSavedTache(){
+			var list = document.getElementById('todo-list');
+
+			while (list.firstChild) {
+		  		list.removeChild(list.firstChild);
+			}
+
+			for (var i = 0; i < localStorage.length; i++) {
+				var new_li = document.createElement("li");
+				new_li.innerHTML = localStorage.getItem(i);
+				new_li.addEventListener('click',removeTache,false);
+				list.appendChild(new_li);
+			};
+		}
+	</script>
+</html>
