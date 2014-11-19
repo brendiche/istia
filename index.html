@@ -14,8 +14,8 @@
 			<!-- the to-do list -->
 			<div class="column">
 				<ul id="todo-list">	
-				    <li draggable="true" ondragstart="dragStart(event)"><button class="todo-list-remove">remove</button>Tâche #1</li>
-				    <li draggable="true" ondragstart="dragStart(event)"><button class="todo-list-remove">remove</button>Tâche #2</li>
+				    <li draggable="true" ondragstart="dragStart(event)" ondrop="list_drop(event)" ondragover="dragOver(event)"><button class="todo-list-remove">remove</button>Tâche #1</li>
+				    <li draggable="true" ondragstart="dragStart(event)" ondrop="list_drop(event)" ondragover="dragOver(event)"><button class="todo-list-remove">remove</button>Tâche #2</li>
 				</ul>
 			</div>
 
@@ -30,7 +30,7 @@
 					   <input type='button' onclick='showSavedTache()' value='Recharger' class="hide"/>
 				</form> 
 				<div id="trash"  ondragover="dragOver(event)" ondrop="dragDrop(event)">
-					<img src="../img/trash.png" width=40><span> Faites glisser une tâche ici pour la supprimer</span>
+					<img src="./img/trash.png" width=40><span> Faites glisser une tâche ici pour la supprimer</span>
 				</div>
 				<!-- <a href="" id="trash"  ondragover="dragOver(event)" ondrop="dragDrop(event)">Faites glisser une tâche ici pour la supprimer</a> -->
 			</div>
@@ -46,6 +46,8 @@
 			new_li.innerHTML = '<button class="todo-list-remove">remove</button>'+name;
 			new_li.setAttribute("draggable",true);
 			new_li.setAttribute("ondragstart","dragStart(event)");
+			new_li.setAttribute("ondragover","dragOver(event)");
+			new_li.setAttribute("ondrop","list_drop(event)");
 			new_li.addEventListener('click',removeTache,false);
 			document.querySelector("#todo-list").appendChild(new_li);
 		}
@@ -55,6 +57,10 @@
 			for (var i = 0;  i <  remove.length; i++) {
 				remove[i].addEventListener('click',removeTache,false);
 			};	
+
+			if (localStorage.length != 0 ) {
+				document.querySelector(".hide").className="reload";
+			};
 		}
 
 		function removeTache(){
@@ -72,7 +78,7 @@
 				localStorage.setItem(i,element[i].parentNode.innerHTML);
 			};
 
-			if(document.querySelector(".hide").className ==  "hide") document.querySelector(".hide").className="reload";
+			if(document.querySelector(".hide") && document.querySelector(".hide").className ==  "hide") document.querySelector(".hide").className="reload";
 		}
 
 		function showSavedTache(){
@@ -86,6 +92,8 @@
 				var new_li = document.createElement("li");
 				new_li.setAttribute("draggable",true);
 				new_li.setAttribute("ondragstart","dragStart(event)");
+				new_li.setAttribute("ondragover","dragOver(event)");
+				new_li.setAttribute("ondrop","list_drop(event)");
 				new_li.innerHTML = localStorage.getItem(i);
 				new_li.addEventListener('click',removeTache,false);
 				list.appendChild(new_li);
@@ -113,6 +121,12 @@
 
     		element.parentNode.removeChild(element);
     		elements = [];
+			return false;
+		}
+		function list_drop(event){
+			var list = document.querySelector("#todo-list");
+			list.insertBefore(elements[event.dataTransfer.getData('index')],event.target);
+			elements = [];
 			return false;
 		}
 	</script>
