@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>TP2: Exercice 3</title>
+    <meta name="read-only" content="true">
+    <meta http-equiv="content-type" content="text/html; charset=ISO-8859-1">
+    <meta name="author" content="none">
+    <script type="text/javascript" src="jquery/js/jquery-1.9.0.min.js"></script>
+    <script type="text/javascript" src="jquery/js/jquery-ui-1.10.0.custom.min.js"></script>
+    <link rel="stylesheet" href="jquery/css/ui-lightness/jquery-ui-1.10.0.custom.min.css" />
+    <style>
+
+      #name_input {
+        float: left;
+        margin-bottom: 20px;
+        margin-right: 20px;
+      }
+
+      #date_input {
+        float: left;
+        margin-bottom: 20px;
+      }
+
+      #year_input {
+        clear:both;
+      }
+
+      .rank_color {
+        width: 20px;
+        margin-top: 2px;
+      }
+
+      #selectable .ui-selecting { 
+        background: #46AADA;
+      }
+      #selectable .ui-selected {
+       background: #0594D9;
+       color: black;
+       }
+      #selectable { 
+        list-style-type: none;
+        margin: 0;
+        padding: 0;
+        width: 20%;
+      }
+      #selectable li {
+       margin: 3px;
+       padding: 5px;
+       font-size: 17px;
+       font-weight: bold;
+       height: 18px; 
+       cursor: pointer;
+      }
+      
+      #sortable { 
+         list-style-type: none; 
+         margin: 0; 
+         padding: 0; 
+         width: 60%; 
+      }
+      #sortable li { 
+       margin: 0 3px 3px 3px; 
+       padding: 0.4em; 
+       padding-left: 1.5em; 
+       font-size: 1.0em; 
+       height: 12px; 
+       cursor: pointer;
+      }
+      #sortable li span { 
+        position: absolute; 
+        margin-left: -1.3em; 
+      }
+
+      .color_swatch{ 
+   height: 50px; 
+   width: 50px; 
+} 
+      
+    </style>
+    
+    <script>
+    $(document).ready(function() {
+
+      $("#date").datepicker({ autoSize: true,duration: "slow",maxDate: "+2w",minDate: "-2w"   });
+      $("#selectable").selectable();
+      $("#sortable").sortable().disableSelection() ;
+
+      $(document).tooltip({
+          items: "[title], [class]",
+          content: function() {
+             var element = $(this);
+             if (element.is("[title]")){
+                return element.attr("title");
+             }
+             if (element.is("[class]")){
+                if (element.attr("class") == "ui-state-default") {
+                   var text = element.text();
+                   return "<div class='color_swatch' style='background:" + text + "'></div>"
+                }
+             }
+          }
+      });
+    });
+
+    </script>
+  </head>
+  <body>
+    <h2>jQuery UI</h2>
+    <h3>Informations générales</h3>
+    <div id="name_input">
+      <label for="name">Nom:</label>
+      <input type="text" id="name" />
+    </div>
+    <div id="date_input">
+      <label for="date">Date:</label>
+      <input type="text" id="date" />
+    </div>
+    <div id="year_input">
+	<h3>En quelle année êtes vous ?</h3>
+     <ol id="selectable">
+      <li class="ui-widget-content" title="étudiant ingénieur 4ème année">EI 4</li>
+      <li class="ui-widget-content" title="étudiant ingénieur 5ème année">EI 5</li>
+     </ol>
+
+    <div id="color_input">
+      
+      <h3> Classer la liste  des couleurs : de celle que vous préférez (1) à celle qui retient le moins votre attention (5).</h3>
+
+      <ol id="sortable">
+        <li class="ui-state-default"><span class="ui-icon ui-icon-arrowthick-2-n-s"></span>#ff0000</li>
+        <li class="ui-state-default"><span class="ui-icon ui-icon-arrowthick-2-n-s"></span>#0000ff</li>
+        <li class="ui-state-default"><span class="ui-icon ui-icon-arrowthick-2-n-s"></span>#ff00b3</li>
+        <li class="ui-state-default"><span class="ui-icon ui-icon-arrowthick-2-n-s"></span>#ded447</li>
+        <li class="ui-state-default"><span class="ui-icon ui-icon-arrowthick-2-n-s"></span>#125e18</li>
+      </ol>
+
+    </div>
+
+  </body>
+</html>
