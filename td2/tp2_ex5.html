@@ -59,7 +59,7 @@
 <script>
 
  var map;
-
+var markers = [];
 $(document).ready(function() {
 
 //Initialisation de Google Maps
@@ -101,12 +101,31 @@ function getCrimes(position){
   $.getJSON("http://data.police.uk/api/crimes-street/all-crime?lat="+lat+"&lng="+lng,fctSuccess);
   
 }
-function fctSuccess(arg){
-  console.log(arg);
+function fctSuccess(crimes){
+  console.log(crimes);
+  $.each(crimes,function(){
+    var location= new google.maps.LatLng(this.location.latitude,this.location.longitude);
+    addMarker(location);
+  });
+  showMarkers();
 }
 
-
+function setAllMap(map) {
+  for (var i = 0; i < markers.length; i++) {
+    markers[i].setMap(map);
+  }
+}
+function showMarkers() {
+  setAllMap(map);
+}
 });
+function addMarker(location) {
+  var marker = new google.maps.Marker({
+    position: location,
+    map: map
+  });
+  markers.push(marker);
+}
 
 </script>
 
