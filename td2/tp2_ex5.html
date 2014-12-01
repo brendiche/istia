@@ -87,8 +87,24 @@ function getCoordinate(position,map) {
 
 
 function getCrimes(position){
-
+  var lat = position.lat();
+  var lng = position.lng();
+  console.log("La Latitude est : "+lat);
+  console.log("La Longitude est : "+lng);
+/*  $.ajax({
+    url: "http://data.police.uk/api/crimes-street/all-crime?lat="+lat+"&lng="+lng,
+    dataType: 'jsonp',
+    success : function(data){
+      console.log(data);
+    }
+  });*/
+  $.getJSON("http://data.police.uk/api/crimes-street/all-crime?lat="+lat+"&lng="+lng,fctSuccess);
+  
 }
+function fctSuccess(arg){
+  console.log(arg);
+}
+
 
 });
 
