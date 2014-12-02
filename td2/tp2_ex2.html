@@ -29,11 +29,8 @@
       });
 
       $("#button_add_box").click(function() {
-        var size = 0;
-        $(".box").each(function(){
-          size++
-        });
-        $("#boxes").append('<div id="box'+(size+1)+'" class="box outlined"></div>');
+
+        $("#boxes").append('<div id="box'+($(".box").size()+1)+'" class="box outlined"></div>');
 
       });
 
